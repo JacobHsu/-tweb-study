@@ -59,10 +59,10 @@ export default class QueryableWorker extends EventListenerBase<{
       });
   
       //console.log('transfer', transfer);
-      this.worker.postMessage({
-        queryMethod: queryMethod,
-        queryMethodArguments: args
-      }, transfer as PostMessageOptions);
+      // this.worker.postMessage({
+      //   queryMethod: queryMethod,
+      //   queryMethodArguments: args
+      // }, transfer as PostMessageOptions);
     }
   }
 }
