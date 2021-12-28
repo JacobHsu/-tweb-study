@@ -1,0 +1,434 @@
+/*
+ * https://github.com/morethanwords/tweb
+ * Copyright (C) 2019-2021 Eduard Kuzmenko
+ * https://github.com/morethanwords/tweb/blob/master/LICENSE
+ */
+
+.btn, .btn-icon {
+  background: none;
+	outline: none;
+  border: none;
+  cursor: pointer;
+
+  body.animation-level-0 & {
+    transition: none;
+  }
+
+  @include btn-hoverable();
+
+  &:disabled {
+    pointer-events: none !important;
+    opacity: var(--disabled-opacity);
+  }
+}
+
+.btn-icon {
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 1;
+  border-radius: 50% !important;
+  color: var(--secondary-text-color);
+  background-color: transparent;
+  border: none;
+  padding: .5rem;
+  position: relative;
+  // overflow: hidden;
+  transition: color .15s ease-in-out, opacity .15s ease-in-out, background-color .15s ease-in-out;
+  
+  /* kostil */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &.rp {
+    overflow: hidden;
+  }
+
+  &.active {
+    color: var(--primary-color);
+  }
+}
+
+.btn-corner {
+  --offset: 1.25rem;
+  --translateY: calc(54px + var(--offset));
+  position: absolute !important;
+  bottom: var(--offset);
+  right: var(--offset);
+  //transition: .2s ease;
+  transition: transform var(--btn-corner-transition) !important;
+  transform: translate3d(0, var(--translateY), 0);
+  z-index: 3;
+  user-select: none;
+  background-color: var(--primary-color);
+  text-align: center;
+  font-size: 1.5rem;
+  color: #fff;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 !important;
+  
+  &.is-visible {
+    --translateY: 0;
+  }
+
+  body.animation-level-0 & {
+		transition: none !important;
+  }
+  
+  &:disabled {
+    opacity: 1 !important;
+    pointer-events: all !important;
+  }
+
+  .preloader-circular {
+    width: 2.5rem;
+    height: 2.5rem;
+  }
+}
+
+.btn-menu {
+  visibility: hidden;
+  position: absolute;
+  background-color: var(--surface-color);
+  box-shadow: 0px 2px 8px 1px rgba(0, 0, 0, .24);
+  z-index: 3;
+  top: 100%;
+  padding: .5rem 0;
+  border-radius: $border-radius-medium;
+  opacity: 0;
+  transform: scale(.8);
+  transition: opacity var(--btn-menu-transition), transform var(--btn-menu-transition), visibility var(--btn-menu-transition);
+  font-size: 16px;
+
+  body.animation-level-0 & {
+    transition: none;
+  }
+
+  -webkit-user-select: none; /* disable selection/Copy of UIWebView */
+  -webkit-touch-callout: none; /* disable the IOS popup when long-press on a link */
+
+  &.active {
+    visibility: visible;
+    opacity: 1;
+    transform: scale3d(1, 1, 1); // * scale3d (NOT scale) will fix jumping text
+  }
+
+  &:not(.active) {
+    &, .btn-menu-item {
+      pointer-events: none !important;
+    }
+  }
+
+  &.bottom-left {
+    right: 0;
+    top: 100%;
+    transform-origin: top right;
+  }
+
+  &.bottom-right {
+    left: 0;
+    top: 100%;
+    transform-origin: top left;
+  }
+
+  &.bottom-center {
+    transform-origin: top center;
+  }
+
+  &.top-left {
+    top: initial;
+    right: 0;
+    bottom: 100%;
+    transform-origin: bottom right;
+  }
+
+  &.top-right {
+    top: initial;
+    left: 0;
+    bottom: 100%;
+    transform-origin: bottom left;
+  }
+
+  &.top-center {
+    transform-origin: bottom center;
+  }
+
+  &.center-left {
+    transform-origin: center right;
+  }
+
+  &.center-right {
+    transform-origin: center left;
+  }
+
+  &-item {
+    display: flex;
+    position: relative;
+    padding: 0 40px 0 1rem;
+    height: 56px;
+    cursor: pointer !important;
+    pointer-events: all !important;
+    color: var(--primary-text-color);
+    text-transform: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    align-items: center;
+    text-align: left;
+    line-height: var(--line-height);
+
+    @include hover-background-effect();
+
+    &.danger {
+      @include hover-background-effect(danger);
+    }
+
+    &:before {
+      color: var(--secondary-text-color);
+      font-size: 1.5rem;
+      margin-right: 2rem;
+    }
+
+    @include respond-to(handhelds) {
+      padding: 0 30px 0 16px;
+      height: 50px;
+    }
+
+    &-text {
+      flex: 1 1 auto;
+    }
+  }
+
+  /* &-overlay {
+    position: fixed !important;
+    left: -100vw;
+    right: -100vw;
+    top: -100vh;
+    bottom: -100vh;
+    z-index: 1;
+    background-color: rgba(0, 0, 0, .2);
+  } */
+  &-overlay {
+    position: fixed !important;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    z-index: 3;
+    cursor: default;
+    user-select: none;
+    //background-color: rgba(0, 0, 0, .2);
+  }
+
+  /* &-toggle  */&-overlay {
+    left: -100vw;
+    right: -100vw;
+    top: -100vh;
+    bottom: -100vh;
+
+    width: auto !important;
+    max-width: none !important;
+  }
+
+  &.has-footer {
+    padding-bottom: 0;
+  }
+
+  &-footer {
+    height: 2.5rem;
+    background: var(--background-color-true);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom-left-radius: inherit;
+    border-bottom-right-radius: inherit;
+    font-size: .875rem;
+    color: currentColor;
+    // cursor: default;
+
+    /* &-text {
+      margin-top: -.125rem;
+    } */
+  }
+
+  hr {
+    padding: 0;
+    margin: .5rem 0;
+  }
+}
+
+.btn-primary {
+  border-radius: $border-radius-medium;
+  width: 100%;
+  text-align: center;
+  height: 54px;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  padding: 0; // new
+  transition: .2s opacity;
+ 
+  @include hover() {
+    transition: .2s background-color, .2s opacity;
+    background: var(--dark-primary-color);
+  }
+
+  &-transparent {
+    color: var(--primary-color);
+    background-color: transparent;
+
+    @include hover() {
+      background: var(--light-primary-color);
+    }
+
+    &.danger {
+      @include hover-background-effect(red, false);
+    }
+
+    .preloader-circular .preloader-path {
+      stroke: var(--primary-color);
+    }
+  }
+
+  body.animation-level-0 & {
+    transition: none;
+  }
+  
+  > svg, use {
+    height: calc(100% - 20px);
+    right: 15px;
+    left: auto;
+  }
+
+  &:disabled {
+    pointer-events: none !important;
+    opacity: var(--disabled-opacity);
+  }
+}
+
+.btn-control {
+  width: auto;
+  height: 40px;
+  align-items: center;
+  margin: 15px auto 1rem;
+  border-radius: 20px;
+  padding: 0 24px 0 12px;
+  display: flex;
+
+  &.tgico:before {
+    font-size: 1.5rem;
+    margin-right: .375rem;
+  }
+}
+
+// ! example: multiselect input, button in pinned messages chat, settings, chat background tab
+.btn-transparent {
+  color: var(--primary-text-color);
+  background-color: transparent;
+  display: flex;
+  align-items: center;
+  padding: 0 1rem;
+  height: 3.5rem;
+  //width: auto;
+  //text-transform: capitalize;
+  font-weight: normal;
+  line-height: 1.3125; // * it centers the text
+
+  @include respond-to(handhelds) {
+    height: 3rem;
+  }
+
+  @include hover-background-effect();
+
+  &.danger {
+    @include hover-background-effect(red);
+  }
+
+  // * tgico
+  &:before {
+    color: var(--secondary-text-color);
+    font-size: 1.5rem;
+    margin-right: 2rem;
+  }
+
+  &.btn-short:before {
+    margin-right: 1rem;
+  }
+}
+
+.btn-primary.btn-circle {
+  .preloader-circular {
+    height: calc(100% - 20px);
+    right: auto;
+    left: auto;
+    margin: 0;
+    top: 10px;
+    
+    .preloader-path {
+      stroke: #fff;
+    }
+  }
+}
+
+.btn-menu-toggle {
+  position: relative;
+  overflow: visible !important;
+  font-weight: normal !important;
+  cursor: pointer !important;
+  pointer-events: all !important;
+
+  &:not(.btn-primary):not(.btn-corner).menu-open {
+    background-color: var(--light-secondary-text-color);
+  }
+
+  .btn-menu {
+    margin-top: .5rem;
+  }
+}
+
+.btn-circle {
+  --size: 54px;
+  border-radius: 50%;
+  height: var(--size);
+  width: var(--size);
+  line-height: var(--size);
+  
+  @include respond-to(handhelds) {
+    --size: 46px;
+  }
+  
+  path {
+    fill: white;
+  }
+}
+
+.btn-disabled {
+  pointer-events: none !important;
+  cursor: default !important;
+  color: var(--secondary-text-color) !important;
+
+  &:before {
+    color: inherit !important;
+  }
+}
+
+.btn-secondary:not(:first-child) {
+  margin-top: .5rem !important;
+}
+
+.btn-color-primary {
+  background: var(--primary-color);
+  color: #fff;
+
+  /* .c-ripple__circle {
+    background-color: var(--light-primary-color);
+  } */
+}
