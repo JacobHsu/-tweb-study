@@ -24,6 +24,7 @@ const FETCH_INTERVAL = 3;
 
 let onFirstMount = async() => {
   const pageElement = page.pageEl;
+  const imageLogo = pageElement.querySelector('.logo-image') as HTMLDivElement;
   const imageDiv = pageElement.querySelector('.auth-image') as HTMLDivElement;
 
   let preloader = putPreloader(imageDiv, true);
@@ -37,6 +38,11 @@ let onFirstMount = async() => {
   getLanguageChangeButton(inputWrapper);
 
   const container = imageDiv.parentElement;
+
+  const logo = document.createElement('img');
+  logo.src = 'assets/img/logo.svg';
+  logo.width = 50;
+  imageLogo.append(logo);
 
   const h4 = document.createElement('h4');
   _i18n(h4, 'Login.QR.Title');
